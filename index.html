@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OUTWIT. OUTPLAY. OUTLAST. (Your Friends.)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Permanent+Marker&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --fire: #FF4D00;
+      --gold: #FFD000;
+      --teal: #00C2A8;
+      --dark: #1A0A00;
+      --cream: #FFF8EC;
+      --pink: #FF3D8A;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--dark);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated background ── */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(255,77,0,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(0,194,168,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 70% at 50% 50%, rgba(255,208,0,0.06) 0%, transparent 70%),
+        #1A0A00;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, rgba(255,208,0,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 55% 10%, rgba(255,208,0,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 25%, rgba(0,194,168,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 20% 70%, rgba(255,61,138,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 85%, rgba(255,208,0,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 90%, rgba(255,255,255,0.3) 0%, transparent 100%);
+      animation: twinkle 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.6; }
+      to { opacity: 1; }
+    }
+
+    /* ── Torch flames ── */
+    .torches {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .torch {
+      position: absolute;
+      bottom: 0;
+      width: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .torch:nth-child(1) { left: 3%; }
+    .torch:nth-child(2) { left: 10%; }
+    .torch:nth-child(3) { right: 10%; }
+    .torch:nth-child(4) { right: 3%; }
+
+    .flame {
+      width: 24px;
+      height: 48px;
+      border-radius: 50% 50% 20% 20%;
+      background: linear-gradient(to top, var(--fire), var(--gold), #fff8);
+      filter: blur(2px);
+      animation: flicker 0.8s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+    }
+    .torch:nth-child(2) .flame { animation-delay: 0.3s; }
+    .torch:nth-child(3) .flame { animation-delay: 0.15s; }
+    .torch:nth-child(4) .flame { animation-delay: 0.5s; }
+
+    @keyframes flicker {
+      0%   { transform: scaleX(1)   scaleY(1)   rotate(-2deg); opacity: 0.9; }
+      33%  { transform: scaleX(0.9) scaleY(1.1) rotate(3deg);  opacity: 1; }
+      66%  { transform: scaleX(1.1) scaleY(0.95) rotate(-1deg); opacity: 0.85; }
+      100% { transform: scaleX(0.95) scaleY(1.05) rotate(2deg); opacity: 0.95; }
+    }
+
+    .torch-pole {
+      width: 8px;
+      height: 180px;
+      background: linear-gradient(to bottom, #8B5E3C, #5C3D1E);
+      border-radius: 4px;
+    }
+
+    /* ── Main content ── */
+    .content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    /* ── Header ── */
+    .show-name {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(12px, 2vw, 16px);
+      color: var(--teal);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      animation: fadeDown 0.6s ease both;
+    }
+
+    .title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(64px, 14vw, 160px);
+      line-height: 0.88;
+      text-align: center;
+      letter-spacing: 0.02em;
+      animation: fadeDown 0.6s 0.1s ease both;
+    }
+
+    .title .line1 { color: var(--gold); display: block; }
+    .title .line2 {
+      color: var(--fire);
+      display: block;
+      -webkit-text-stroke: 2px var(--gold);
+    }
+    .title .line3 { color: var(--cream); display: block; }
+
+    .tagline {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(14px, 2.5vw, 22px);
+      color: var(--pink);
+      margin-top: 16px;
+      text-align: center;
+      transform: rotate(-1.5deg);
+      animation: fadeDown 0.6s 0.2s ease both;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 32px 0;
+      animation: fadeDown 0.6s 0.3s ease both;
+      width: 100%;
+      max-width: 480px;
+    }
+    .divider-line {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .divider-icon { color: var(--fire); font-size: 20px; }
+
+    /* ── Login card ── */
+    .card {
+      background: rgba(255,248,236,0.05);
+      border: 2px solid rgba(255,208,0,0.3);
+      border-radius: 16px;
+      padding: 40px 48px;
+      width: 100%;
+      max-width: 440px;
+      backdrop-filter: blur(12px);
+      animation: fadeUp 0.7s 0.35s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--fire), var(--gold), var(--teal), var(--pink));
+    }
+
+    .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(255,208,0,0.2);
+      border-radius: 10px;
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    input::placeholder { color: rgba(255,248,236,0.3); }
+
+    input:focus {
+      border-color: var(--gold);
+      background: rgba(255,208,0,0.07);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      margin-top: 8px;
+      background: linear-gradient(135deg, var(--fire), #FF8A00);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+      box-shadow: 0 4px 24px rgba(255,77,0,0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 8px 32px rgba(255,77,0,0.6);
+      filter: brightness(1.1);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0) scale(0.99);
+    }
+
+    .error-msg {
+      background: rgba(255,61,138,0.15);
+      border: 1px solid var(--pink);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--pink);
+      margin-bottom: 16px;
+      display: none;
+      text-align: center;
+    }
+
+    /* ── Tribal council badge ── */
+    .tribal-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--teal), #009986);
+      color: var(--dark);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+      animation: fadeDown 0.6s 0.4s ease both;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: rgba(255,248,236,0.3);
+      text-align: center;
+      animation: fadeDown 0.6s 0.5s ease both;
+      font-family: 'Permanent Marker', cursive;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Dashboard (hidden by default) ── */
+    #dashboard {
+      display: none;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 900px;
+      padding: 40px 20px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .dash-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .dash-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .dash-title span {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 16px;
+      color: var(--teal);
+      display: block;
+      letter-spacing: 0.1em;
+    }
+
+    .btn-logout {
+      background: transparent;
+      border: 1.5px solid rgba(255,248,236,0.2);
+      border-radius: 8px;
+      color: rgba(255,248,236,0.5);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .btn-logout:hover {
+      border-color: var(--pink);
+      color: var(--pink);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: rgba(255,248,236,0.04);
+      border: 1.5px solid rgba(255,208,0,0.15);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .stat-card:hover { border-color: rgba(255,208,0,0.4); }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,248,236,0.5);
+      margin-top: 4px;
+    }
+
+    .section-head {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 0.1em;
+      color: var(--cream);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-head::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,208,0,0.2);
+    }
+
+    .coming-soon {
+      background: rgba(255,248,236,0.03);
+      border: 1.5px dashed rgba(255,208,0,0.2);
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+      color: rgba(255,248,236,0.3);
+      font-family: 'Permanent Marker', cursive;
+      font-size: 18px;
+    }
+    .coming-soon em {
+      display: block;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      font-style: normal;
+      margin-top: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg"></div>
+  <div class="stars"></div>
+
+  <div class="torches">
+    <div class="torch"><div class="flame"></div><div class="torch-pole"></div></div>
+    <div class="torch"><div class="flame"></div><div class="torch-pole"></div></div>
+    <div class="torch"><div class="flame"></div><div class="torch-pole"></div></div>
+    <div class="torch"><div class="flame"></div><div class="torch-pole"></div></div>
+  </div>
+
+  <!-- Login Screen -->
+  <div class="content" id="loginScreen">
+    <p class="show-name">🌴 A Backyard Production 🌴</p>
+
+    <h1 class="title">
+      <span class="line1">Outwit.</span>
+      <span class="line2">Outplay.</span>
+      <span class="line3">Outlast.</span>
+    </h1>
+
+    <p class="tagline">(your friends, specifically)</p>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-icon">🔥</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="tribal-badge">🗳️ TRIBAL COUNCIL AWAITS</div>
+
+    <div class="card">
+      <div class="card-title">ENTER THE GAME</div>
+      <div class="error-msg" id="errorMsg">Wrong username or password. The tribe has spoken.</div>
+      <div class="form-group">
+        <label for="username">Survivor Name</label>
+        <input type="text" id="username" placeholder="e.g. BobTheStrategist" autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="password">Secret Password</label>
+        <input type="password" id="password" placeholder="Don't share at tribal..." />
+      </div>
+      <button class="btn-primary" onclick="handleLogin()">CAST MY VOTE TO ENTER</button>
+    </div>
+
+    <p class="footer">No buffs were harmed in the making of this game.</p>
+  </div>
+
+  <!-- Dashboard Screen -->
+  <div class="content" id="dashboard">
+    <div style="width:100%;max-width:900px;">
+      <div class="dash-header">
+        <div class="dash-title">
+          <span id="welcomeSubtitle">welcome back,</span>
+          <span id="welcomeName" style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--gold);display:block;line-height:1;">SURVIVOR</span>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">🚪 Snuff My Torch</button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="statPlayers">—</div>
+          <div class="stat-label">Players in Tribe</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">0</div>
+          <div class="stat-label">Games Played</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">—</div>
+          <div class="stat-label">Current Season</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">0</div>
+          <div class="stat-label">Tribal Councils</div>
+        </div>
+      </div>
+
+      <div class="section-head">Active Game</div>
+      <div class="coming-soon">
+        🏝️ No game in session right now.
+        <em>The host will activate a game when it's time. Sit tight, Survivor.</em>
+      </div>
+
+      <div style="margin-top: 28px;">
+        <div class="section-head">Your History</div>
+        <div class="coming-soon">
+          📜 Nothing to show yet.
+          <em>Your victories (and betrayals) will be recorded here.</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── Simple in-memory user store ──
+    // In the future this will connect to a real backend.
+    // For now, accounts are defined here by the admin.
+    const USERS = [
+      { username: "admin",   password: "tribal2024", role: "host",   displayName: "The Host" },
+      { username: "player1", password: "immunity1",  role: "player", displayName: "Player One" },
+      { username: "player2", password: "immunity2",  role: "player", displayName: "Player Two" },
+    ];
+
+    let currentUser = null;
+
+    function handleLogin() {
+      const u = document.getElementById('username').value.trim().toLowerCase();
+      const p = document.getElementById('password').value;
+      const err = document.getElementById('errorMsg');
+
+      const match = USERS.find(x => x.username.toLowerCase() === u && x.password === p);
+
+      if (!match) {
+        err.style.display = 'block';
+        document.getElementById('password').value = '';
+        return;
+      }
+
+      err.style.display = 'none';
+      currentUser = match;
+      showDashboard(match);
+    }
+
+    function showDashboard(user) {
+      document.getElementById('loginScreen').style.display = 'none';
+      const dash = document.getElementById('dashboard');
+      dash.style.display = 'flex';
+
+      document.getElementById('welcomeSubtitle').textContent = user.role === 'host' ? 'welcome, host:' : 'welcome back,';
+      document.getElementById('welcomeName').textContent = user.displayName.toUpperCase();
+
+      const activePlayers = USERS.filter(u => u.role === 'player').length;
+      document.getElementById('statPlayers').textContent = activePlayers;
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    }
+
+    // Allow Enter key to submit
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') {
+        handleLogin();
+      }
+    });
+  </script>
+</body>
+</html>
